@@ -3,11 +3,11 @@
 
 ## Author:
 name:
-
+Marcin
 surname:
-
+Martychewicz
 group:
-
+3
 ## How to start the app
 
 
