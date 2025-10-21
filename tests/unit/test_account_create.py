@@ -28,3 +28,13 @@ class TestAccount:
     def test_promo_code_too_short(self):
         account = Account("John", "Doe", "12345678901", "PROM_ad")
         assert account.balance == 0.0
+
+    def test_person_too_old(self):
+        account = Account("John", "Doe", "59115678901", "PROM_abc")
+        assert account.balance == 0
+    def test_person_ok(self):
+        account = Account("John", "Doe", "60115678901", "PROM_abc")
+        assert account.balance == 50
+    def test_person_ok_after_2000(self):
+        account = Account("John", "Doe", "02215678901", "PROM_abc")
+        assert account.balance == 50
