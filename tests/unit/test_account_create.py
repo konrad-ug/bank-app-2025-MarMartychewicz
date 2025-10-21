@@ -32,9 +32,9 @@ class TestAccount:
     def test_person_too_old(self):
         account = Account("John", "Doe", "59115678901", "PROM_abc")
         assert account.balance == 0
-    def test_person_ok(self):
+    def test_person_age_ok(self):
         account = Account("John", "Doe", "60115678901", "PROM_abc")
         assert account.balance == 50
-    def test_person_ok_after_2000(self):
+    def test_person_age_ok_after_2000(self):
         account = Account("John", "Doe", "02215678901", "PROM_abc")
         assert account.balance == 50
