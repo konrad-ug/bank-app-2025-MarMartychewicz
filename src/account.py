@@ -26,3 +26,26 @@ class Account:
             return True
         else:
             return False
+    
+    def is_number(self, number):
+        try:
+            val = int(number)
+            return True
+        except ValueError:
+            return False
+
+    def incoming(self, sum):
+        if self.is_number(sum):
+            self.balance += sum
+        else:
+            return 'error: incoming sum is not a number'
+
+    def outgoing(self, sum):
+        if self.is_number(sum):
+            if self.balance >= sum:
+                self.balance -= sum
+            else:
+                return 'error: Not enough funds to complete transaction'
+        else:
+            return 'error: outgoing sum is not a number'
+
