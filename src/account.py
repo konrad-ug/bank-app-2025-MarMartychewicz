@@ -1,4 +1,6 @@
-class Account:    
+class Account:
+    express_outgoing_fee = 0
+
     def is_number(self, number):
         try:
             val = int(number)
@@ -21,10 +23,10 @@ class Account:
         else:
             return 'error: outgoing sum is not a number'
 
-    def express(self, sum, cost):
+    def express(self, sum):
         if self.is_number(sum):
-            if self.balance >= cost:
-                self.balance -= (cost+sum)
+            if self.balance >= self.express_outgoing_fee:
+                self.balance -= (self.express_outgoing_fee+sum)
             else:
                 return 'error: Not enough funds to complete transaction'
         else:

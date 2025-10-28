@@ -1,6 +1,8 @@
 from src.account import Account
 
 class PersonalAccount(Account):
+    express_outgoing_fee = 1.0
+
     def __init__(self, first_name, last_name, pesel, promo_code=None):
         self.first_name = first_name
         self.last_name = last_name
@@ -9,7 +11,7 @@ class PersonalAccount(Account):
         self.express_cost = 1
     
     def express(self, sum):
-        return super().express(sum, self.express_cost)
+        return super().express(sum)
     
     def is_pesel_valid(self, pesel):
         if len(str(pesel)) == 11 and super().is_number(pesel):
