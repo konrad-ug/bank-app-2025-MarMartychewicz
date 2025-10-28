@@ -16,3 +16,9 @@ class TestCompanyTransaction:
         assert account.outgoing(50) == 'error: Not enough funds to complete transaction'
         account.outgoing(50)
         assert account.balance == 10
+    def test_company_acc_outgoing_NaN(self):
+        account = CompanyAccount('CompanyName', '1234567890')
+        account.balance = 10.0
+        assert account.outgoing('w') == 'error: outgoing sum is not a number'
+        account.outgoing('w')
+        assert account.balance == 10
