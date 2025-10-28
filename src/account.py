@@ -1,6 +1,9 @@
 class Account:
     express_outgoing_fee = 0
 
+    def __init__(self):
+        self.history = []
+
     def is_number(self, number):
         try:
             val = int(number)
