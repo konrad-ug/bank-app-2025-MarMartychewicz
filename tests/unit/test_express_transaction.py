@@ -22,7 +22,7 @@ class TestPersonalExpressTransaction:
         account.express('w')
         assert account.balance == 10
 
-class testCompanyExpresTransaction:
+class TestCompanyExpresTransaction:
     def test_express_transaction(self):
         account = CompanyAccount('testCom', 1234567890)
         account.balance = 10
@@ -34,7 +34,7 @@ class testCompanyExpresTransaction:
         account.balance = 4
         assert account.express(20) == 'error: Not enough funds to complete transaction'
         account.express(20)
-        assert account.balance == 0
+        assert account.balance == 4
 
     def test_express_invalid_value(self):
         account = CompanyAccount('testCom', 1234567890)

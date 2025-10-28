@@ -11,6 +11,6 @@ class CompanyAccount(Account):
         return super().express(sum, self.express_cost)
 
     def is_nip_valid(self, nip):
-        if len(nip) == 10:
+        if len(str(nip)) == 10:
             return True
         else: return False
