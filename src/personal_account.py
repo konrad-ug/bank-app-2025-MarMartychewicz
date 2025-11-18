@@ -9,6 +9,7 @@ class PersonalAccount(Account):
         self.balance = 50 if (self.is_promo_code_valid(promo_code) and self.is_required_age(pesel)) else 0
         self.pesel = pesel if self.is_pesel_valid(pesel) else "Invalid"
         self.express_cost = 1
+        self.history = []
     
     def express(self, sum):
         return super().express(sum)
