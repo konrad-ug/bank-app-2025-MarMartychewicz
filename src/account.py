@@ -1,9 +1,6 @@
 class Account:
     express_outgoing_fee = 0
 
-    def __init__(self):
-        self.history = []
-
     def is_number(self, number):
         try:
             val = int(number)
@@ -14,6 +11,7 @@ class Account:
     def incoming(self, sum):
         if self.is_number(sum):
             self.balance += sum
+            self.history.append(sum)
         else:
             return 'error: incoming sum is not a number'
 
@@ -21,6 +19,7 @@ class Account:
         if self.is_number(sum):
             if self.balance >= sum:
                 self.balance -= sum
+                self.history.append(-sum)
             else:
                 return 'error: Not enough funds to complete transaction'
         else:
@@ -30,6 +29,7 @@ class Account:
         if self.is_number(sum):
             if self.balance >= self.express_outgoing_fee:
                 self.balance -= (self.express_outgoing_fee+sum)
+                self.history.append(-(sum+self.express_outgoing_fee))
             else:
                 return 'error: Not enough funds to complete transaction'
         else:
