@@ -8,10 +8,10 @@ class TestPersonalTransactionHistory:
     assert account.history == [460]
     account.outgoing(60)
     assert account.history == [460, -60]
-    account.express(99)
-    assert account.history == [460, -60, -100]
+    account.express(95)
+    assert account.history == [460, -60, -95, -account.express_outgoing_fee]
     account.outgoing(600)
-    assert account.history == [460, -60, -100]
+    assert account.history == [460, -60, -95, -account.express_outgoing_fee]
 
 
 class TestCompanyTransactionHistory:
@@ -22,6 +22,6 @@ class TestCompanyTransactionHistory:
     account.outgoing(60)
     assert account.history == [460, -60]
     account.express(95)
-    assert account.history == [460, -60, -100]
+    assert account.history == [460, -60, -95, -account.express_outgoing_fee]
     account.outgoing(600)
-    assert account.history == [460, -60, -100]
+    assert account.history == [460, -60, -95, -account.express_outgoing_fee]

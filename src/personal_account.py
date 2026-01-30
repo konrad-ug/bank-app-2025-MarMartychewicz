@@ -11,6 +11,31 @@ class PersonalAccount(Account):
         self.express_cost = 1
         self.history = []
     
+    def past_three_incoming(self):
+        for i in range(1, 4):
+            if self.history[len(self.history) - i] < 0:
+                return False
+        return True
+
+    def past_five_greater_than_loan(self, amount):
+        if len(self.history) < 5:
+            return False
+        buf = 0
+        for i in range(1, 6):
+            buf += self.history[len(self.history) - i]
+        #print(len(self.history), buf, amount)
+        if buf > amount:
+            return True
+        else:
+            return False
+
+    def submit_for_loan(self, amount):
+        if (self.past_three_incoming() and self.past_five_greater_than_loan(amount)):
+            self.balance += amount
+            return True
+        else:
+            return False
+
     def express(self, sum):
         return super().express(sum)
     
