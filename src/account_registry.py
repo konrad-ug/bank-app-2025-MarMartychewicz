@@ -14,6 +14,14 @@ class AccountRegistry:
                 return account
         return None
 
+    def delete_account(self, pesel):
+        account = self.get_account_by_pesel(pesel)
+        if account is None:
+            return False
+        else: 
+            self.accounts.remove(account)
+        return True
+
     def get_all_accounts(self):
         return self.accounts
 
