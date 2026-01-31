@@ -5,6 +5,10 @@ class AccountRegistry:
     def __init__(self):
         self.accounts: List[PersonalAccount] = []
 
+    def clear(self):
+        self.accounts.clear()
+
+
     def add_account(self, account):
         self.accounts.append(account)
 
