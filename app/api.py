@@ -9,6 +9,9 @@ registry = AccountRegistry()
 def create_account():
     data = request.get_json()
     print(f"Create account request: {data}")
+    if registry.get_account_by_pesel(data["pesel"]):
+        return jsonify({"error": "There already is an account with this pesel"}), 409
+
     account = PersonalAccount(data["name"], data["surname"], data["pesel"])
     registry.add_account(account)
     return jsonify({"message": "Account created"}), 201
@@ -33,7 +36,7 @@ def get_account_by_pesel(pesel):
     acc = registry.get_account_by_pesel(pesel)
     if acc is None:
         return jsonify({"error": "Account not found"}), 404
-    acc_data = [{"name": acc.first_name, "surname": acc.last_name, "pesel": acc.pesel, "balance": acc.balance}]
+    acc_data = {"name": acc.first_name, "surname": acc.last_name, "pesel": acc.pesel, "balance": acc.balance}
     return jsonify(acc_data), 200
 
 @app.route("/api/accounts/<pesel>", methods=['PATCH'])
@@ -59,3 +62,43 @@ def delete_account(pesel):
     if not success:
         return jsonify({"error": "Account not found"}), 404
     return jsonify({"message": "Account deleted"}), 200
+
+@app.route('/api/accounts/<pesel>/transfer', methods=['PATCH'])
+def transfer(pesel):
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    
+    acc = registry.get_account_by_pesel(pesel)
+    if acc is None:
+        return jsonify({"error": "Account not found"}), 404
+
+    amount = data['amount']
+    if not isinstance(amount, int or float):
+        return jsonify({'error': 'The provided amount is not a number'}), 422
+
+    match data['type']:
+        case 'incoming':
+            if acc.incoming(amount):
+                return jsonify({'message': 'The order has been accepted'}), 200
+
+        case 'outgoing':
+            if acc.balance > amount:
+                acc.outgoing(amount)
+                return jsonify({'message': 'The order has been accepted'}), 200
+            elif acc.outgoing(amount) == 'error: Not enough funds to complete transaction':
+                return jsonify({'error': 'Not enough funds to complete the transaction'}), 422
+
+        case 'express':
+            if acc.balance > acc.express_cost:
+                acc.express(amount)
+                return jsonify({'message': 'The order has been accepted'}), 200
+            elif acc.express(amount) == 'error: Not enough funds to complete transaction':
+                return jsonify({'error': 'Not enough funds to complete the transaction'}), 422
+
+        case 'debug':
+            acc.balance = amount
+            return jsonify({'message': 'The order has been accepted'}), 200
+
+        case _:
+            pass
