@@ -1,6 +1,7 @@
 from src.account import Account
 import requests, json
 from datetime import date
+from smtp.smtp import SMTPClient
 
 class CompanyAccount(Account):
     express_outgoing_fee = 5.0
@@ -61,3 +62,8 @@ class CompanyAccount(Account):
             self.balance += amount
             return True
         else: return False
+    
+    def send_history_via_email(self, email):
+        subject = f"Account Transfer History {date.today()}"
+        text = f"Company account history: {self.history}"
+        return SMTPClient.send(subject, text, email)
