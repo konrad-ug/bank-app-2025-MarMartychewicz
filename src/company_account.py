@@ -17,3 +17,15 @@ class CompanyAccount(Account):
         if len(str(nip)) == 10:
             return True
         else: return False
+
+    def sufficient_balance(self, amount):
+        return True if (self.balance >= amount) else False
+    
+    def zus_paid(self):
+        return True if (-1775 in self.history) else False
+
+    def submit_for_loan(self, amount):
+        if (self.sufficient_balance(amount) and self.zus_paid()):
+            self.balance += amount
+            return True
+        else: return False

@@ -30,7 +30,7 @@ class PersonalAccount(Account):
             return False
 
     def submit_for_loan(self, amount):
-        if (self.past_three_incoming() and self.past_five_greater_than_loan(amount)):
+        if (self.past_three_incoming() or self.past_five_greater_than_loan(amount)):
             self.balance += amount
             return True
         else:
