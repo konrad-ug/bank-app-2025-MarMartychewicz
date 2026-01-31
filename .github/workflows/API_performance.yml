@@ -27,25 +27,20 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Start Flask API
+    - name: Start API and run performance tests
       run: |
         flask --app app.api run \
           --host=127.0.0.1 \
           --port=5000 \
           --no-reload &
-
-    - name: Wait for API to be ready
-      run: |
+        
+        echo "Waiting for API..."
         for i in {1..30}; do
           if curl -s http://127.0.0.1:5000/api/accounts > /dev/null; then
             echo "API is ready"
             break
           fi
-          echo "Waiting for API..."
           sleep 1
         done
-
-    - name: Run API performance tests
-      run: |
-        python3 -m pytest app/api_test/test_api_performance.py 
         
+        pytest app/api_test/test_api_performance.py
