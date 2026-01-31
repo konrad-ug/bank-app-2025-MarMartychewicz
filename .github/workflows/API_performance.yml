@@ -29,13 +29,19 @@ jobs:
 
     - name: Start Flask API
       run: |
-        export FLASK_APP=app/api.py
-        flask run --host=127.0.0.1 --port=5000 &
+        flask --app app.api run \
+          --host=127.0.0.1 \
+          --port=5000 \
+          --no-reload &
 
     - name: Wait for API to be ready
       run: |
-        for i in {1..20}; do
-          curl http://127.0.0.1:5000/api/accounts && break
+        for i in {1..30}; do
+          if curl -s http://127.0.0.1:5000/api/accounts > /dev/null; then
+            echo "API is ready"
+            break
+          fi
+          echo "Waiting for API..."
           sleep 1
         done
 
