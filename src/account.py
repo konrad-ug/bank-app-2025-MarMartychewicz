@@ -12,6 +12,7 @@ class Account:
         if self.is_number(sum):
             self.balance += sum
             self.history.append(sum)
+            return True
         else:
             return 'error: incoming sum is not a number'
 
@@ -20,6 +21,7 @@ class Account:
             if self.balance >= sum:
                 self.balance -= sum
                 self.history.append(-sum)
+                return True
             else:
                 return 'error: Not enough funds to complete transaction'
         else:
@@ -29,7 +31,9 @@ class Account:
         if self.is_number(sum):
             if self.balance >= self.express_outgoing_fee:
                 self.balance -= (self.express_outgoing_fee+sum)
-                self.history.append(-(sum+self.express_outgoing_fee))
+                self.history.append(-sum)
+                self.history.append(-self.express_outgoing_fee)
+                return True
             else:
                 return 'error: Not enough funds to complete transaction'
         else:
